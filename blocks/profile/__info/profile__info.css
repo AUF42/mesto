@@ -2,11 +2,16 @@
     display: flex;
     padding-left: 30px;
     align-items: baseline;
+    text-overflow: ellipsis;
+    max-width: 358px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 @media screen and (max-width: 880px) {
     .profile-info__wrap {
         padding-top: 22.25px;
         padding-bottom: 36px;
+        max-width: 238px;
     }
 }

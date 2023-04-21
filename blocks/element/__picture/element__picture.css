@@ -3,4 +3,6 @@
     display: block;
     border-radius: 10px 10px 0 0;
     object-fit: cover;
+    max-width: 282px;
+    max-height: 282px;
 }
