@@ -21,6 +21,8 @@
     .popup__close-button {
         right: 0;
         top: -36px;
-        background-size: 20px 20px;
+        background-image: url(../../../images/icons/close-small-icon.svg);
+        width: 20px;
+        height: 20px;
     }
 }
