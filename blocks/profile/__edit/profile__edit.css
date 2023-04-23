@@ -20,5 +20,6 @@
         margin-left: 10px;
         width: 18px;
         height: 18px;
+        background: #000 url(../../../images/icons/edit-small-icon.svg) no-repeat top 50% left 50%;;
     }
 }
