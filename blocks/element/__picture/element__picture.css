@@ -5,3 +5,7 @@
     width: 282px;
     height: 282px;
 }
+
+.element__picture:hover {
+    cursor: pointer;
+}
