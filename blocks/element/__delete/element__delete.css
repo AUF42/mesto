@@ -8,6 +8,7 @@
     border: none;
     transition: opacity .5s ease;
     background: transparent url('../../../images/icons/trash.svg') no-repeat center;
+    cursor: pointer;
 }
 
 .element__delete:hover {

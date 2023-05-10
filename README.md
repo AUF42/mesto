@@ -10,6 +10,19 @@
 Тексты написаны бесплатным шрифтом ”Inter“ от дизайнеров «Фигмы».
 Используемые шрифты подключены локально. Тексты взяты из макета.
 
+**Стек технологий**
+CSS;
+HTML;
+JavaScript;
+
+Flexbox;
+Grid Layout;
+Nested БЭМ;
+Семантическая разметка;
+Позиционирование;
+Media queries;
+Popup;
+
 **Figma**
 
 * [Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)

@@ -1,7 +1,7 @@
 // Общие элементы
-const popupCloseBtn = document.querySelectorAll('.popup__close-button');
-let inputName = document.querySelector('#input-name');
-let inputJob = document.querySelector('#input-profile-caption');
+const popupCloseBtns = document.querySelectorAll('.popup__close-button');
+const inputName = document.querySelector('#input-name');
+const inputJob = document.querySelector('#input-profile-caption');
 
 // Форма редактирования профиля
 const popupEditProfileOpenBtn = document.querySelector('.profile__edit');
@@ -21,39 +21,12 @@ const cardTemplate = document.querySelector('#element-template').content;
 // Форма zoom
 const popupImageZoom = document.querySelector('#image-popup');
 
-// Массив карточек
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
 function createCard(name, link) {
     const card =  cardTemplate
         .querySelector('.element').cloneNode(true);
     card.querySelector('.element__intro').textContent = name;
     card.querySelector('.element__picture').src = link;
+    card.querySelector('.element__picture').alt = name;
 
     card.querySelector('.element__like').addEventListener('click', function (evt) {
         evt.target.classList.toggle('element__like_active');
@@ -63,13 +36,14 @@ function createCard(name, link) {
         evt.target.closest('.element').remove();
     });
 
-    const getZoomImage = function () {
+    const showZoomImage = function () {
         popupImageZoom.querySelector('.popup__title').textContent = name;
         popupImageZoom.querySelector('.popup__image').src = link;
+        popupImageZoom.querySelector('.popup__image').alt = name;
         openPopup(popupImageZoom);
     }
 
-    card.querySelector('.element__picture').addEventListener('click', getZoomImage);
+    card.querySelector('.element__picture').addEventListener('click', showZoomImage);
 
     return card;
 }
@@ -86,7 +60,7 @@ const openPopup = function (popupName) {
     popupName.classList.add('popup_opened');
 }
 
-const popupClose = function (popupName) {
+const closePopup = function (popupName) {
     popupName.classList.remove('popup_opened');
 }
 
@@ -96,11 +70,11 @@ const popupOpenProfileEditing = function () {
     inputJob.value = profileCaption.textContent;
 }
 
-const formSubmitHandler = function (evt) {
+const handleEditProfile = function (evt) {
     evt.preventDefault();
     profileName.textContent = inputName.value;
     profileCaption.textContent = inputJob.value;
-    popupClose(popupEditingForm);
+    closePopup(popupEditingForm);
 }
 
 const handleCreateNewCard = function (evt) {
@@ -115,12 +89,12 @@ const handleCreateNewCard = function (evt) {
 
 popupEditProfileOpenBtn.addEventListener('click', popupOpenProfileEditing);
 
-popupCloseBtn.forEach((button) => {
+popupCloseBtns.forEach((button) => {
     const popup = button.closest('.popup');
-    button.addEventListener('click', () => popupClose(popup));
+    button.addEventListener('click', () => closePopup(popup));
 });
 
-popupEditingForm.addEventListener('submit', formSubmitHandler);
+popupEditingForm.addEventListener('submit', handleEditProfile);
 popupCreatingCards.addEventListener('submit', handleCreateNewCard);
 
 popupAddCardOpenBtn.addEventListener('click',  () => openPopup(popupCreatingCards));
