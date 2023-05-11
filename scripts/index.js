@@ -83,7 +83,7 @@ const handleCreateNewCard = function (evt) {
         createCard(
             nameInputCard.value,
             imageInputCard.value));
-    popupClose(popupCreatingCards);
+    closePopup(popupCreatingCards);
     evt.target.reset();
 }
 
