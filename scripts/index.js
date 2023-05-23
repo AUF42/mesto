@@ -58,11 +58,28 @@ initialCards.forEach(function (item) {
 
 const openPopup = function (popupName) {
     popupName.classList.add('popup_opened');
+    popupName.addEventListener('click', closePopupClickOverlay);
+    document.addEventListener(`keydown`, closePopupEsc);
 }
 
 const closePopup = function (popupName) {
     popupName.classList.remove('popup_opened');
 }
+
+const closePopupEsc = function (evt) {
+    if (evt.key === "Escape") {
+        const popupOpened = document.querySelector('.popup_opened')
+        closePopup(popupOpened);
+    }
+}
+
+const closePopupClickOverlay = (evt) => {
+    if (evt.target !== evt.currentTarget) {
+        return;
+    }
+    const popupOpened = document.querySelector('.popup_opened');
+    closePopup(popupOpened);
+};
 
 const popupOpenProfileEditing = function () {
     openPopup(popupEditingForm);

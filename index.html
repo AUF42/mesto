@@ -41,9 +41,15 @@
     <div class="popup__container">
         <button type="button" class="popup__close-button" aria-label="Закрыть форму редактирования профиля"></button>
         <h2 class="popup__header">Редактировать профиль</h2>
-        <form class="popup__form" name="form_edit_profile">
-            <input class="popup__input" type="text" id="input-name" placeholder="Введите имя" name="name" required>
-            <input class="popup__input" type="text" id="input-profile-caption" placeholder="Введите профессию" name="profession">
+        <form class="popup__form" name="form_edit_profile" novalidate>
+            <label for="input-name" class="popup__label">
+                <input class="popup__input" type="text" id="input-name" placeholder="Введите имя" name="name" minlength="2" maxlength="40" required>
+                <p class="popup__input-error input-name-error">Вы пропустили это поле.</p>
+            </label>
+            <label for="input-profile-caption" class="popup__label">
+                <input class="popup__input" type="text" id="input-profile-caption" placeholder="Введите профессию" name="profession" minlength="2" maxlength="200"required>
+                <p class="popup__input-error input-profile-caption-error">Вы пропустили это поле.</p>
+            </label>
             <button type="submit" class="popup__save-button" aria-label="Сохранить форму редактирования профиля">Сохранить</button>
         </form>
     </div>
@@ -53,9 +59,15 @@
     <div class="popup__container">
         <button type="button" class="popup__close-button" aria-label="Закрыть форму добавления места"></button>
         <h2 class="popup__header">Новое место</h2>
-        <form class="popup__form" name="form_card">
-            <input class="popup__input" id="place-name-input" type="text" placeholder="Название" name="name" required>
-            <input  class="popup__input" id="place-image-input" type="url" placeholder="Ссылка на картинку" name="description" required>
+        <form class="popup__form" name="form_card" novalidate>
+            <label for="place-name-input" class="popup__label">
+                <input class="popup__input" id="place-name-input" type="text" placeholder="Название" name="name" minlength="2" maxlength="30" required>
+                <p class="popup__input-error place-name-input-error">Вы пропустили это поле.</p>
+            </label>
+            <label for="place-image-input" class="popup__label">
+                <input  class="popup__input" id="place-image-input" type="url" placeholder="Ссылка на картинку" name="description" required>
+                <p class="popup__input-error place-image-input-error">Вы пропустили это поле.</p>
+            </label>
             <button type="submit" class="popup__save-button" aria-label="Создать место">Создать</button>
         </form>
     </div>
@@ -81,6 +93,7 @@
 </template>
 
 <script defer src="./scripts/initialCards.js"></script>
+<script defer src="./scripts/validation.js"></script>
 <script defer src="./scripts/index.js"></script>
 </body>
 </html>
