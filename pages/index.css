@@ -45,6 +45,6 @@
 @import url(../blocks/popup/__save-button/popup__save-button.css);
 @import url(../blocks/popup/__save-button/_disabled/popup__save-button_disabled.css);
 @import url(../blocks/popup/__zoom/popup__zoom.css);
-@import url(../blocks/popup/__zoom/-container/popup__zoom-container.css);
+@import url(../blocks/popup/__zoom-container/popup__zoom-container.css);
 @import url(../blocks/popup/__image/popup__image.css);
 @import url(../blocks/popup/__title/popup__title.css);
