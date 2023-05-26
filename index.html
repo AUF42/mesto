@@ -68,12 +68,12 @@
                 <input  class="popup__input" id="place-image-input" type="url" placeholder="Ссылка на картинку" name="description" required>
                 <p class="popup__input-error place-image-input-error">Вы пропустили это поле.</p>
             </label>
-            <button type="submit" class="popup__save-button" aria-label="Создать место">Создать</button>
+            <button type="submit" class="popup__save-button popup__save-button_disabled" disabled aria-label="Создать место">Создать</button>
         </form>
     </div>
 </div>
 
-<div id="image-popup" class="popup">
+<div id="image-popup" class="popup popup__zoom-on">
     <div class="popup__zoom-container">
         <button type="button" class="popup__close-button" aria-label="Закрыть зум"></button>
         <img src="#" class="popup__image" alt="">

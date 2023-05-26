@@ -3,7 +3,7 @@
     visibility: hidden;
     display: block;
     box-sizing: border-box;
-    height: 12px;
+    min-height: 30px;
     color: #FF0000;
     font-style: normal;
     font-weight: 400;
