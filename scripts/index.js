@@ -1,3 +1,7 @@
+import { FormValidator, enableValidation } from './FormValidator.js';
+import { initialCards } from './initialCards.js';
+import { Card } from './Card.js';
+
 // Общие элементы
 const popup = document.querySelectorAll('.popup');
 const popupCloseBtns = document.querySelectorAll('.popup__close-button');
@@ -17,47 +21,11 @@ const imageInputCard = document.querySelector('#place-image-input');
 const nameInputCard = document.querySelector('#place-name-input');
 
 const cardsContainer = document.querySelector('.elements');
-const cardTemplate = document.querySelector('#element-template').content;
 
 // Форма zoom
-const popupImageZoom = document.querySelector('#image-popup');
+export const popupImageZoom = document.querySelector('#image-popup');
 
-function createCard(name, link) {
-    const card =  cardTemplate
-        .querySelector('.element').cloneNode(true);
-    card.querySelector('.element__intro').textContent = name;
-    card.querySelector('.element__picture').src = link;
-    card.querySelector('.element__picture').alt = name;
-
-    card.querySelector('.element__like').addEventListener('click', function (evt) {
-        evt.target.classList.toggle('element__like_active');
-    });
-
-    card.querySelector('.element__delete').addEventListener('click', function (evt) {
-        evt.target.closest('.element').remove();
-    });
-
-    const showZoomImage = function () {
-        popupImageZoom.querySelector('.popup__title').textContent = name;
-        popupImageZoom.querySelector('.popup__image').src = link;
-        popupImageZoom.querySelector('.popup__image').alt = name;
-        openPopup(popupImageZoom);
-    }
-
-    card.querySelector('.element__picture').addEventListener('click', showZoomImage);
-
-    return card;
-}
-
-function addCard(container, element) {
-    container.prepend(element);
-}
-
-initialCards.forEach(function (item) {
-    addCard(cardsContainer, createCard(item.name, item.link));
-});
-
-const openPopup = function (popupName) {
+export const openPopup = function (popupName) {
     popupName.classList.add('popup_opened');
     document.addEventListener(`keydown`, closePopupEsc);
 }
@@ -88,19 +56,48 @@ const handleEditProfile = function (evt) {
     closePopup(popupEditingForm);
 }
 
+const renderCard = function (object, template) {
+    const card = new Card(object, template);
+    return card.createCard();
+}
+
 const handleCreateNewCard = function (evt) {
     evt.preventDefault();
     evt.submitter.disabled = true;
-    addCard(cardsContainer,
-        createCard(
-            nameInputCard.value,
-            imageInputCard.value));
+    cardsContainer.prepend(renderCard({
+        name: nameInputCard.value,
+        link: imageInputCard.value
+        }, '#element-template'));
     evt.target.reset();
     evt.submitter.classList.add('popup__save-button_disabled');
 
     closePopup(popupCreatingCards);
+
+    new FormValidator(enableValidation, popup).enableValidation();
 }
 
+const renderValidationCards = function () {
+    document.querySelectorAll(enableValidation.formSelector).forEach(formElement => {
+        new FormValidator(enableValidation, formElement).enableValidation();
+    })
+}
+
+const renderInitialCards = function () {
+    initialCards.forEach(function (item) {
+        cardsContainer.append(renderCard(item, '#element-template'));
+    });
+}
+
+renderValidationCards();
+renderInitialCards();
+
+const addCardValidate = new FormValidator(enableValidation, popupCreatingCards);
+addCardValidate.enableValidation();
+
+const editProfileValidate = new FormValidator(enableValidation, popupEditingForm);
+editProfileValidate.enableValidation();
+
+popupAddCardOpenBtn.addEventListener('click',  () => openPopup(popupCreatingCards));
 popupEditProfileOpenBtn.addEventListener('click', popupOpenProfileEditing);
 
 popupCloseBtns.forEach((button) => {
@@ -110,8 +107,6 @@ popupCloseBtns.forEach((button) => {
 
 popupEditingForm.addEventListener('submit', handleEditProfile);
 popupCreatingCards.addEventListener('submit', handleCreateNewCard);
-
-popupAddCardOpenBtn.addEventListener('click',  () => openPopup(popupCreatingCards));
 
 popup.forEach((popupElement) => {
     popupElement.addEventListener('mousedown', (evt) => {
