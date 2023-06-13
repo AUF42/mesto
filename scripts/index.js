@@ -3,13 +3,14 @@ import { initialCards } from './initialCards.js';
 import { Card } from './Card.js';
 
 // Общие элементы
-const popup = document.querySelectorAll('.popup');
+const popups = document.querySelectorAll('.popup');
 const popupCloseBtns = document.querySelectorAll('.popup__close-button');
 const inputName = document.querySelector('#input-name');
 const inputJob = document.querySelector('#input-profile-caption');
 
 // Форма редактирования профиля
-const popupEditProfileOpenBtn = document.querySelector('.profile__edit');
+const profileForm = document.querySelector('.profile');
+const popupEditProfileOpenBtn = profileForm.querySelector('.profile__edit');
 const popupEditingForm = document.querySelector('#popup__profile-edit');
 const profileName = document.querySelector('.profile__name');
 const profileCaption = document.querySelector('.profile__caption');
@@ -63,17 +64,13 @@ const renderCard = function (object, template) {
 
 const handleCreateNewCard = function (evt) {
     evt.preventDefault();
-    evt.submitter.disabled = true;
     cardsContainer.prepend(renderCard({
         name: nameInputCard.value,
         link: imageInputCard.value
         }, '#element-template'));
     evt.target.reset();
-    evt.submitter.classList.add('popup__save-button_disabled');
 
     closePopup(popupCreatingCards);
-
-    new FormValidator(enableValidation, popup).enableValidation();
 }
 
 const renderValidationCards = function () {
@@ -108,7 +105,7 @@ popupCloseBtns.forEach((button) => {
 popupEditingForm.addEventListener('submit', handleEditProfile);
 popupCreatingCards.addEventListener('submit', handleCreateNewCard);
 
-popup.forEach((popupElement) => {
+popups.forEach((popupElement) => {
     popupElement.addEventListener('mousedown', (evt) => {
         if (evt.target !== evt.currentTarget) {
             return;
