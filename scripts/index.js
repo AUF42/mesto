@@ -25,6 +25,8 @@ const cardsContainer = document.querySelector('.elements');
 
 // Форма zoom
 export const popupImageZoom = document.querySelector('#image-popup');
+export const popupZoomName = popupImageZoom.querySelector('.popup__title');
+export const popupZoomImage = popupImageZoom.querySelector('.popup__image');
 
 export const openPopup = function (popupName) {
     popupName.classList.add('popup_opened');
@@ -43,14 +45,14 @@ const closePopupEsc = function (evt) {
     }
 }
 
-const popupOpenProfileEditing = function (evt) {
+const openPopupProfileEditing = function (evt) {
     evt.preventDefault();
     openPopup(popupEditingForm);
     inputName.value = profileName.textContent;
     inputJob.value = profileCaption.textContent;
 }
 
-const handleEditProfile = function (evt) {
+const editProfileHandle = function (evt) {
     evt.preventDefault();
     profileName.textContent = inputName.value;
     profileCaption.textContent = inputJob.value;
@@ -62,21 +64,17 @@ const renderCard = function (object, template) {
     return card.createCard();
 }
 
-const handleCreateNewCard = function (evt) {
+const createNewCardHandle = function (evt) {
     evt.preventDefault();
+    evt.submitter.disabled = true;
     cardsContainer.prepend(renderCard({
         name: nameInputCard.value,
         link: imageInputCard.value
         }, '#element-template'));
     evt.target.reset();
+    addCardValidate._disableSubmitButton();
 
     closePopup(popupCreatingCards);
-}
-
-const renderValidationCards = function () {
-    document.querySelectorAll(enableValidation.formSelector).forEach(formElement => {
-        new FormValidator(enableValidation, formElement).enableValidation();
-    })
 }
 
 const renderInitialCards = function () {
@@ -85,7 +83,6 @@ const renderInitialCards = function () {
     });
 }
 
-renderValidationCards();
 renderInitialCards();
 
 const addCardValidate = new FormValidator(enableValidation, popupCreatingCards);
@@ -95,15 +92,15 @@ const editProfileValidate = new FormValidator(enableValidation, popupEditingForm
 editProfileValidate.enableValidation();
 
 popupAddCardOpenBtn.addEventListener('click',  () => openPopup(popupCreatingCards));
-popupEditProfileOpenBtn.addEventListener('click', popupOpenProfileEditing);
+popupEditProfileOpenBtn.addEventListener('click', openPopupProfileEditing);
 
 popupCloseBtns.forEach((button) => {
     const popup = button.closest('.popup');
     button.addEventListener('click', () => closePopup(popup));
 });
 
-popupEditingForm.addEventListener('submit', handleEditProfile);
-popupCreatingCards.addEventListener('submit', handleCreateNewCard);
+popupEditingForm.addEventListener('submit', editProfileHandle);
+popupCreatingCards.addEventListener('submit', createNewCardHandle);
 
 popups.forEach((popupElement) => {
     popupElement.addEventListener('mousedown', (evt) => {

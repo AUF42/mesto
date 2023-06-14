@@ -1,6 +1,7 @@
-import { popupImageZoom, openPopup } from './index.js';
+import {popupImageZoom, openPopup, popupZoomName, popupZoomImage} from './index.js';
 
 class Card {
+
     constructor(object, templateElement) {
         this._name = object.name;
         this._image = object.link;
@@ -10,15 +11,15 @@ class Card {
         this._elementName = this._elementCard.querySelector('.element__intro');
         this._likeIcon = this._elementCard.querySelector('.element__like');
         this._deleteIcon = this._elementCard.querySelector('.element__delete');
-        this._popupZoomName = popupImageZoom.querySelector('.popup__title');
-        this._popupZoomImage = popupImageZoom.querySelector('.popup__image');
+        this._popupZoomName = popupZoomName;
+        this._popupZoomImage = popupZoomImage;
     }
 
     _deleteCard = (evt) => {
         evt.target.closest('.element').remove();
     }
 
-    _addLike = (evt) => {
+    _toggleLike = (evt) => {
         evt.target.classList.toggle('element__like_active');
     }
 
@@ -30,7 +31,7 @@ class Card {
     }
 
     _addEventHandler = () => {
-        this._likeIcon.addEventListener('click', event => this._addLike(event))
+        this._likeIcon.addEventListener('click', event => this._toggleLike(event))
         this._deleteIcon.addEventListener('click', event => this._deleteCard(event));
         this._elementImages.addEventListener('click', () => this._showZoomImage())
     }
