@@ -29,14 +29,14 @@ class FormValidator {
     _toggleButtonState = () =>  {
 
         if (this._hasInvalidInput()) {
-           this._disableSubmitButton();
+           this.disableSubmitButton();
 
         } else {
             this._enableSubmitButton();
         }
     }
 
-    _disableSubmitButton() {
+    disableSubmitButton() {
         this._submitElement.classList.add(this._object.inactiveButtonClass);
         this._submitElement.setAttribute('disabled', true);
     }

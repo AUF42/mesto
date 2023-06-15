@@ -52,7 +52,7 @@ const openPopupProfileEditing = function (evt) {
     inputJob.value = profileCaption.textContent;
 }
 
-const editProfileHandle = function (evt) {
+const handleEditProfile = function (evt) {
     evt.preventDefault();
     profileName.textContent = inputName.value;
     profileCaption.textContent = inputJob.value;
@@ -64,7 +64,7 @@ const renderCard = function (object, template) {
     return card.createCard();
 }
 
-const createNewCardHandle = function (evt) {
+const handleCreateNewCard = function (evt) {
     evt.preventDefault();
     evt.submitter.disabled = true;
     cardsContainer.prepend(renderCard({
@@ -72,7 +72,7 @@ const createNewCardHandle = function (evt) {
         link: imageInputCard.value
         }, '#element-template'));
     evt.target.reset();
-    addCardValidate._disableSubmitButton();
+    addCardValidate.disableSubmitButton();
 
     closePopup(popupCreatingCards);
 }
@@ -99,8 +99,8 @@ popupCloseBtns.forEach((button) => {
     button.addEventListener('click', () => closePopup(popup));
 });
 
-popupEditingForm.addEventListener('submit', editProfileHandle);
-popupCreatingCards.addEventListener('submit', createNewCardHandle);
+popupEditingForm.addEventListener('submit', handleEditProfile);
+popupCreatingCards.addEventListener('submit', handleCreateNewCard);
 
 popups.forEach((popupElement) => {
     popupElement.addEventListener('mousedown', (evt) => {
