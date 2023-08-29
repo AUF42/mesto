@@ -26,7 +26,7 @@ class Card {
         this._elementImages.addEventListener('click', () => this._handleCardClick(this._name, this._image));
     }
 
-    createCard() {
+    create() {
         this._elementName.textContent = this._name;
         this._elementImages.src = this._image;
         this._elementImages.alt = this._name;

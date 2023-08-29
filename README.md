@@ -23,6 +23,7 @@ Nested БЭМ;
 Позиционирование;
 Media queries;
 Popup;
+Вебпак;
 
 **Figma**
 
