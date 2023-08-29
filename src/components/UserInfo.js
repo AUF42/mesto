@@ -7,14 +7,14 @@ class UserInfo {
 
     getUserInfo() {
         return {
-            profileName: this._profileName.textContent,
-            profileCaption: this._profileCaption.textContent
+            name: this._profileName.textContent,
+            profession: this._profileCaption.textContent
         };
     }
 
-    setUserInfo({ profileName, profileCaption }) {
-        this._profileName.textContent = profileName;
-        this._profileCaption.textContent = profileCaption;
+    setUserInfo({ name, profession }) {
+        this._profileName.textContent = name;
+        this._profileCaption.textContent = profession;
     }
 }
 

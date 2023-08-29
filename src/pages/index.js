@@ -52,8 +52,15 @@ const nameInputCard = '#place-name-input';
 
 const cardsContainer = '.elements';
 
+const addCardValidate = new FormValidator(enableValidation, popupCreatingCards);
+const editProfileValidate = new FormValidator(enableValidation, popupEditingForm);
+
+editProfileValidate.enableValidation();
+addCardValidate.enableValidation();
+
 // Форма zoom
 const popupImageZoom = new PopupWithImage('#image-popup');
+popupImageZoom.setEventListeners();
 
 // Создание новой карточки
 const createCard = (cardData) => {
@@ -62,6 +69,20 @@ const createCard = (cardData) => {
     });
     return card.create();
 }
+
+const popupCreateNewCard = new PopupWithForm('#popup__add-card', (formData)=> {
+        const { title: name, link } = formData;
+        renderInitialCard.addItem({ name , link });
+        popupCreateNewCard.close();
+    }
+);
+
+popupCreateNewCard.setEventListeners();
+
+popupAddCardOpenBtn.addEventListener('click', function () {
+    popupCreateNewCard.open();
+    addCardValidate.disableSubmitButton();
+});
 
 // Создание секции и отображение карточек
 const renderInitialCard = new Section({
@@ -78,68 +99,15 @@ const userInfo = new UserInfo({
     profileCaptionSelector: '.profile__caption'
 });
 
-// Создание попап для редактирования профиля
-
-
-// const handleCardClick = function (name, image) {
-//     popupImageZoom.open(name, image);
-// }
-
 //Редактирование профиля
-const popupProfileEdit = new PopupWithForm('#popup__profile-edit',
-    profileData => {
-        userInfo.setUserInfo({
-            profileName: profileData.profileName,
-            profileCaption: profileData.profileCaption
-        })
-        popupProfileEdit.close();
-    }
-);
-
-
-
-
-
-
-
-
-
-
-const popupCreateNewCard = new PopupWithForm('#popup__add-card', (formData)=> {
-    const { title: name, link } = formData;
-    renderInitialCard.addItem({ name , link });
-    popupCreateNewCard.close();
-    }
-);
-
-
-
-
-popupEditProfileOpenBtn.addEventListener('click',  function() {
-    popupProfileEdit.open();
-    const currentUserInfo = userInfo.getUserInfo();
-    inputName.setAttribute('value', currentUserInfo.profileName);
-    inputJob.setAttribute('value', currentUserInfo.profileCaption);
+const popupProfileEdit = new PopupWithForm('#popup__profile-edit', ({ name, profession }) => {
+    userInfo.setUserInfo({ name, profession });
+    popupProfileEdit.close();
 });
 
-const addCardValidate = new FormValidator(enableValidation, popupCreatingCards);
-
-
-const editProfileValidate = new FormValidator(enableValidation, popupEditingForm);
-
-
-popupAddCardOpenBtn.addEventListener('click', function () {
-    popupCreateNewCard.open();
-    addCardValidate.disableSubmitButton();
-});
-
-
-//Слушатели:
-popupImageZoom.setEventListeners();
 popupProfileEdit.setEventListeners();
-popupCreateNewCard.setEventListeners();
 
-
-//Валидация:
-editProfileValidate.enableValidation();
-addCardValidate.enableValidation();
+popupEditProfileOpenBtn.addEventListener('click', () => {
+    popupProfileEdit.setInputValues(userInfo.getUserInfo());
+    popupProfileEdit.open();
+});
