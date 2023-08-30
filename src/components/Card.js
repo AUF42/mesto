@@ -1,8 +1,8 @@
 class Card {
 
-    constructor(object, templateElement, handleCardClick) {
-        this._name = object.name;
-        this._image = object.link;
+    constructor(name, link, templateElement, handleCardClick) {
+        this._name = name;
+        this._image = link;
         this._template = templateElement;
         this._handleCardClick = handleCardClick;
         this._elementCard = document.querySelector(this._template).content.querySelector('.element').cloneNode(true);
@@ -12,8 +12,8 @@ class Card {
         this._deleteIcon = this._elementCard.querySelector('.element__delete');
     }
 
-    _deleteCard = (evt) => {
-        evt.target.closest('.element').remove();
+    _deleteCard = () => {
+        return this._elementCard.remove();
     }
 
     _toggleLike = (evt) => {
@@ -26,7 +26,7 @@ class Card {
         this._elementImages.addEventListener('click', () => this._handleCardClick(this._name, this._image));
     }
 
-    create() {
+    createCard() {
         this._elementName.textContent = this._name;
         this._elementImages.src = this._image;
         this._elementImages.alt = this._name;
