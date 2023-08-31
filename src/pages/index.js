@@ -64,8 +64,8 @@ popupEditProfileOpenBtn.addEventListener('click', () => {
 
 // Создание секции и отображение карточек
 const renderInitialCard = new Section({
-    renderer: (CardInfo) => {
-        renderInitialCard.addItem(createCard(CardInfo));
+    renderer: (cardInfo) => {
+        renderInitialCard.addItem(createCard(cardInfo));
     },
 }, cardsContainer);
 
