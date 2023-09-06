@@ -17,7 +17,7 @@
 <main class="main">
 
     <section class="profile">
-            <img class="profile__avatar" src="<%=require('./images/profile-avatar.jpg')%>" alt="Аватар профиля">
+        <div class="profile__avatar" aria-label="Открыть попап редактирования аватара" tabindex="1"></div>
         <div class="profile__info">
             <div class="profile__bio">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -35,6 +35,19 @@
 <footer class="footer">
     <p class="footer__copyright">&copy; 2023. Юлия Фролова</p>
 </footer>
+
+<div class="popup" id="popup-edit-avatar">
+    <div class="popup__container">
+        <button type="button" class="popup__close-button"></button>
+        <form class="popup__form" action="#" method="post" novalidate>
+            <p class="popup__title">Обновить аватар</p>
+            <label for="avatar" class="popup__label">
+                <input type="url" name="avatar" id="avatar" class="popup__input" placeholder="Ссылка на картинку" required>
+            </label>
+            <button type="submit" class="popup__save-button">Сохранить</button>
+        </form>
+    </div>
+</div>
 
 <div class="popup" id="popup__profile-edit">
     <div class="popup__container">
@@ -72,6 +85,17 @@
     </div>
 </div>
 
+<div class="popup" id="popup-confirmation">
+    <div class="popup__container">
+        <button type="button" class="popup__close-button"></button>
+        <div class="popup__form">
+            <p class="popup__title">Вы уверены?</p>
+            <button type="button" class="popup__save-button">Да</button>
+        </div>
+    </div>
+</div>
+
+
 <div id="image-popup" class="popup popup_zoom-active">
     <div class="popup__zoom-container">
         <button type="button" class="popup__close-button" aria-label="Закрыть зум"></button>
@@ -87,6 +111,7 @@
         <div class="element__info">
             <h2 class="element__intro"></h2>
             <button type="button" class="element__like" aria-label="Лайк"></button>
+            <span class="element__span"></span>
         </div>
     </div>
 </template>

@@ -6,6 +6,7 @@ class PopupWithForm extends Popup {
         this._handleCardClick = handleCardClick;
         this._popupForm = this._popupName.querySelector('.popup__form');
         this._inputList = Array.from(this._popupForm.querySelectorAll('.popup__input'));
+        this._submitButton = this._popupForm.querySelector('.popup__save-button');
     }
 
     _getInputValues() {
@@ -24,11 +25,20 @@ class PopupWithForm extends Popup {
         });
     }
 
+    renderLoading(isLoading) {
+        if(isLoading) {
+            this._submitButton.textContent = 'Сохранение...';
+        } else {
+            this._submitButton.textContent = 'Сохранить';
+        }
+    }
+
     setEventListeners() {
         super.setEventListeners();
         this._popupForm.addEventListener('submit', (evt) => {
             evt.preventDefault();
             this._handleCardClick(this._getInputValues());
+            this.close();
         });
     }
 
