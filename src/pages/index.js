@@ -86,12 +86,14 @@ Promise.all([api.getUserInfoApi(), api.getInitialCards()])
 let userId;
 
 // Создание новой карточки
-const popupCreateNewCard = new PopupWithForm('#popup__add-card', (item) => {
+const popupCreateNewCard = new PopupWithForm('#popup__add-card',
+    (formValues) => {
         popupCreateNewCard.renderLoading(true);
         api
-            .addCard(item)
-            .then((data) => {
-                renderInitialCard.addItem(createCard(item));
+            .addCard( {name: formValues.name, link:formValues.link} )
+            .then((card) => {
+                renderInitialCard.addItem(createCard(card));
+                popupCreateNewCard.close();
     })
         .catch((err) => console.log(err))
         .finally(() => popupCreateNewCard.renderLoading(false));
