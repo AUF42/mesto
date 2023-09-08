@@ -3,7 +3,7 @@ import { Popup } from './Popup';
 class PopupLoading extends Popup {
     constructor(selector, { callbackNotice }) {
         super(selector);
-        this._confirmButton = this._popupSelector.querySelector('.popup__save-button');
+        this._submitButton = this._popupName.querySelector('.popup__save-button');
         this._callbackNotice = callbackNotice;
     }
 
@@ -14,7 +14,8 @@ class PopupLoading extends Popup {
     }
 
     setEventListeners() {
-        this._submitButton.addEventListener('submit', (evt) => { evt.preventDefault();
+        this._submitElement.addEventListener('submit', (evt) => {
+            evt.preventDefault();
             this._callbackNotice(this._cardElement, this._cardId) })
         super.setEventListeners();
     }

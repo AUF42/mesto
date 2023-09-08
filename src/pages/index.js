@@ -13,7 +13,6 @@ import {
     popupEditingForm,
     popupEditProfileOpenBtn,
     popupEditAvatar,
-    popupDeleteCard,
     popupEditingFormAvatar
 } from '../utils/constants';
 import { Api } from '../components/Api';
@@ -37,6 +36,16 @@ const userInfo = new UserInfo({
     profileAvatarSelector: '.profile__avatar'
 });
 
+Promise.all([api.getUserInfoApi(), api.getInitialCards()])
+    .then(([user, cardElement]) => {
+        userId = user._id;
+        userInfo.setUserInfo(user);
+        renderInitialCard.renderItems(cardElement.reverse());
+    })
+    .catch((err) => alert(err))
+    .finally(() => {})
+let userId;
+
 const createCard = (cardElement) => {
     const card = new Card(cardElement, '#element-template', userId, { cardId: cardElement._id, ownerId: cardElement.owner._id },
         {
@@ -44,7 +53,7 @@ const createCard = (cardElement) => {
                 popupImageZoom.open(name, link)
             },
             handleCardDelete: (cardElement, cardId) => {
-                popupDeleteCard.open(cardElement, cardId)
+                popupFormDelete.open(cardElement, cardId)
             },
             handleCardLike: (cardId) => {
                 api.putCardLike(cardId)
@@ -75,15 +84,18 @@ const renderInitialCard = new Section({
     },
 }, cardsContainer);
 
-Promise.all([api.getUserInfoApi(), api.getInitialCards()])
-    .then(([user, cardElement]) => {
-        userId = user._id;
-        userInfo.setUserInfo(user);
-        renderInitialCard.renderItems(cardElement.reverse());
-    })
-    .catch((err) => alert(err))
-    .finally(() => {})
-let userId;
+
+const popupFormDelete = new PopupLoading('#popup-confirmation', {
+    callbackNotice: (cardElement, cardId) => { api.deleteCard(cardId)
+        .then(() => {
+            cardElement.deleteCard();
+            popupFormDelete.close();
+        })
+        .catch((err) => { console.log(`При удалении карточки возникла ошибка, ${err}`) })
+    }
+});
+popupFormDelete.setEventListeners();
+
 
 // Создание новой карточки
 const popupCreateNewCard = new PopupWithForm('#popup__add-card',
@@ -104,7 +116,6 @@ popupAddCardOpenBtn.addEventListener('click', function () {
     popupCreateNewCard.open();
     addCardValidate.disableSubmitButton();
 });
-
 
 //Редактирование профиля
 const popupProfileEdit = new PopupWithForm('#popup__profile-edit', ({ name, profession }) => {
@@ -142,14 +153,3 @@ popupEditAvatar.addEventListener('click', function () {
     editAvatarValidate.disableSubmitButton();
 });
 
-const popupFormDelete = new PopupLoading('#popup-confirmation', {
-    callbackNotice: (cardElement, cardId) => { api.deleteCard(cardId)
-        .then(() => {
-            cardElement.deleteCard();
-            popupFormDelete.close();
-        })
-        .catch((err) => { console.log(`При удалении карточки возникла ошибка, ${err}`) })
-    }
-});
-
-popupFormDelete.setEventListeners();
