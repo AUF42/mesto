@@ -23,9 +23,13 @@ import {PopupLoading} from "../components/PopupLoading";
 const api = new Api(apiConfig);
 const addCardValidate = new FormValidator(enableValidation, popupCreatingCards);
 const editProfileValidate = new FormValidator(enableValidation, popupEditingForm);
+const editAvatarValidate = new FormValidator(enableValidation, popupEditingFormAvatar);
+const popupImageZoom = new PopupWithImage('#image-popup');
 
-editProfileValidate.enableValidation();
 addCardValidate.enableValidation();
+editProfileValidate.enableValidation();
+editAvatarValidate.enableValidation();
+popupImageZoom.setEventListeners();
 
 // Форма профиля
 const userInfo = new UserInfo({
@@ -33,10 +37,6 @@ const userInfo = new UserInfo({
     profileCaptionSelector: '.profile__caption',
     profileAvatarSelector: '.profile__avatar'
 });
-
-// Форма zoom
-const popupImageZoom = new PopupWithImage('#image-popup');
-popupImageZoom.setEventListeners();
 
 Promise.all([api.getUserInfoApi(), api.getInitialCards()])
     .then(([user, cards]) => {
@@ -48,10 +48,34 @@ Promise.all([api.getUserInfoApi(), api.getInitialCards()])
     .finally(() => {})
 let userId;
 
-const createCard = (data) => {
-    const card = new Card(data.name, data.link, '#element-template', () => {
-        popupImageZoom.open(data.name, data.link);
-    });
+const createCard = (cardElement) => {
+    const card = new Card(cardElement, '#element-template', userId, { cardId: cardElement._id, ownerId: cardElement.owner._id },
+        {
+            handleCardZoom: (name, link) => {
+                popupImageZoom.open(name, link)
+            },
+            handleCardDelete: (cardElement, cardId) => {
+                popupDeleteCard.open(cardElement, cardId)
+            },
+            handleCardLike: (cardId) => {
+                api.putCardLike(cardId)
+                    .then((res) => {
+                        card.renderCardLike(res);
+                    })
+                    .catch((err) => {
+                        console.log(`При выставлении лайка произошла ошибка, ${err}`)
+                    })
+            },
+            handleCardDeleteLike: (cardId) => {
+                api.deleteCardLike(cardId)
+                    .then((res) => {
+                        card.renderCardLike(res);
+                    })
+                    .catch((err) => {
+                        console.log(`При снятии лайка произошла ошибка, ${err}`)
+                    })
+            },
+        });
     return card.createCard();
 }
 
@@ -101,10 +125,6 @@ popupEditProfileOpenBtn.addEventListener('click', () => {
     popupProfileEdit.open();
 });
 
-
-const editAvatarValidate = new FormValidator(enableValidation, popupEditingFormAvatar);
-editAvatarValidate.enableValidation();
-
 const popupAvatar = new PopupWithForm('#popup-edit-avatar', ( { avatar } )  => {
     popupAvatar.renderLoading(true);
     api
@@ -122,28 +142,14 @@ popupEditAvatar.addEventListener('click', function () {
     editAvatarValidate.disableSubmitButton();
 });
 
-// const popupFormDelete = new PopupLoading('#popup-confirmation', ()  =>{
-//     popupFormDelete.renderLoading(true);
-//     api.deleteCard(id)
-//         .then(() => {
-//             card.deleteCard();
-//             popupFormDelete.close();
-//         })
-//         .catch((err) => alert(err))
-//         .finally(() => {
-//             popupFormDelete.renderLoading(false);
-//         })
-// })
-//
-// popupFormDelete.setEventListeners();
-//
-// popupDeleteCard.addEventListener('click', function () {
-//     popupFormDelete.open();
-// });
+const popupFormDelete = new PopupLoading('#popup-confirmation', {
+    callbackNotice: (cardElement, cardId) => { api.deleteCard(cardId)
+        .then(() => {
+            cardElement.deleteCard();
+            popupFormDelete.close();
+        })
+        .catch((err) => { console.log(`При удалении карточки возникла ошибка, ${err}`) })
+    }
+});
 
-
-
-
-
-// const PopupLoading = new PopupLoading('#popup-confirmation');
-// PopupLoading.setEventListeners();
+popupFormDelete.setEventListeners();

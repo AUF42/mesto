@@ -1,28 +1,22 @@
 import { Popup } from './Popup';
 
 class PopupLoading extends Popup {
-    constructor(selector) {
+    constructor(selector, { callbackNotice }) {
         super(selector);
         this._confirmButton = this._popupSelector.querySelector('.popup__save-button');
+        this._callbackNotice = callbackNotice;
     }
 
-    renderLoading(isLoading) {
-        if(isLoading) {
-            this._confirmButton.textContent = 'Удаление...';
-        } else {
-            this._confirmButton.textContent = 'Да';
-        }
-    }
-
-    setConfirm(callback) {
-        this._handleConfirmationCallback = callback;
+    open(cardElement, cardId) {
+        this._cardElement = cardElement;
+        this._cardId = cardId;
+        super.open();
     }
 
     setEventListeners() {
+        this._submitButton.addEventListener('submit', (evt) => { evt.preventDefault();
+            this._callbackNotice(this._cardElement, this._cardId) })
         super.setEventListeners();
-        this._confirmButton.addEventListener('click', () => {
-            this._handleConfirmationCallback();
-        });
     }
 }
 

@@ -42,7 +42,7 @@
         <h2 class="popup__header">Обновить аватар</h2>
         <form class="popup__form" novalidate>
             <label for="avatar-input" class="popup__label">
-                <input class="popup__input" id="avatar-input" type="url" placeholder="Ссылка на картинку" name="link" required>
+                <input class="popup__input" id="avatar-input" type="url" placeholder="Ссылка на картинку" name="avatar" required>
                 <p class="popup__input-error avatar-input-error">Вы пропустили это поле.</p>
             </label>
             <button type="submit" class="popup__save-button popup__save-button_disabled" disabled aria-label="Сохранить форму редактирования аватара">Сохранить</button>
@@ -112,7 +112,7 @@
         <div class="element__info">
             <h2 class="element__intro"></h2>
             <button type="button" class="element__like" aria-label="Лайк"></button>
-            <span class="element__like-counter">0</span>
+            <p class="element__like-counter"></p>
         </div>
     </div>
 </template>
