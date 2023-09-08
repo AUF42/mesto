@@ -14,7 +14,8 @@ import {
     popupEditingForm,
     popupEditProfileOpenBtn,
     popupEditAvatar,
-    popupDeleteCard
+    popupDeleteCard,
+    popupEditingFormAvatar
 } from '../utils/constants';
 import { Api } from '../components/Api';
 import {PopupLoading} from "../components/PopupLoading";
@@ -101,13 +102,13 @@ popupEditProfileOpenBtn.addEventListener('click', () => {
 });
 
 
-const editAvatarValidate = new FormValidator(enableValidation, popupEditAvatar);
+const editAvatarValidate = new FormValidator(enableValidation, popupEditingFormAvatar);
 editAvatarValidate.enableValidation();
 
-const popupAvatar = new PopupWithForm('#popup-edit-avatar', (formData) => {
+const popupAvatar = new PopupWithForm('#popup-edit-avatar', ( { avatar } )  => {
     popupAvatar.renderLoading(true);
     api
-        .setUserAvatar(formData)
+        .setUserAvatar( {avatar} )
         .then((data) => {
             userInfo.setUserInfo(data);
         })
