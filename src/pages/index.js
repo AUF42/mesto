@@ -12,11 +12,30 @@ import {
     popupAddCardOpenBtn,
     popupCreatingCards,
     popupEditingForm,
-    popupEditProfileOpenBtn
+    popupEditProfileOpenBtn,
+    popupEditAvatar,
+    popupDeleteCard
 } from '../utils/constants';
 import { Api } from '../components/Api';
+import {PopupLoading} from "../components/PopupLoading";
 
 const api = new Api(apiConfig);
+const addCardValidate = new FormValidator(enableValidation, popupCreatingCards);
+const editProfileValidate = new FormValidator(enableValidation, popupEditingForm);
+
+editProfileValidate.enableValidation();
+addCardValidate.enableValidation();
+
+// Форма профиля
+const userInfo = new UserInfo({
+    profileNameSelector: '.profile__name',
+    profileCaptionSelector: '.profile__caption',
+    profileAvatarSelector: '.profile__avatar'
+});
+
+// Форма zoom
+const popupImageZoom = new PopupWithImage('#image-popup');
+popupImageZoom.setEventListeners();
 
 Promise.all([api.getUserInfoApi(), api.getInitialCards()])
     .then(([user, cards]) => {
@@ -27,16 +46,6 @@ Promise.all([api.getUserInfoApi(), api.getInitialCards()])
     .catch((err) => alert(err))
     .finally(() => {})
 let userId;
-
-const addCardValidate = new FormValidator(enableValidation, popupCreatingCards);
-const editProfileValidate = new FormValidator(enableValidation, popupEditingForm);
-
-editProfileValidate.enableValidation();
-addCardValidate.enableValidation();
-
-// Форма zoom
-const popupImageZoom = new PopupWithImage('#image-popup');
-popupImageZoom.setEventListeners();
 
 const createCard = (data) => {
     const card = new Card(data.name, data.link, '#element-template', () => {
@@ -63,24 +72,14 @@ popupAddCardOpenBtn.addEventListener('click', function () {
     addCardValidate.disableSubmitButton();
 });
 
-// Форма профиля
-const userInfo = new UserInfo({
-    profileNameSelector: '.profile__name',
-    profileCaptionSelector: '.profile__caption',
-    profileAvatarSelector: '.profile__avatar'
-});
+// Создание секции и отображение карточек
+const renderInitialCard = new Section({
+    renderer: (cardInfo) => {
+        renderInitialCard.addItem(createCard(cardInfo));
+    },
+}, cardsContainer);
 
-const popupAvatar = new PopupWithForm('#popup-edit-avatar', (formData) => {
-    popupAvatar.renderLoading(true);
-    api
-        .setUserAvatar(formData)
-        .then((data) => {
-            userInfo.setUserInfo(data);
-        })
-        .catch((err) => console.log(err))
-        .finally(() => popupAvatar.renderLoading(false));
-});
-popupAvatar.setEventListeners();
+renderInitialCard.renderItems(initialCards);
 
 //Редактирование профиля
 const popupProfileEdit = new PopupWithForm('#popup__profile-edit', ({ name, profession }) => {
@@ -101,15 +100,49 @@ popupEditProfileOpenBtn.addEventListener('click', () => {
     popupProfileEdit.open();
 });
 
-// Создание секции и отображение карточек
-const renderInitialCard = new Section({
-    renderer: (cardInfo) => {
-        renderInitialCard.addItem(createCard(cardInfo));
-    },
-}, cardsContainer);
+
+const editAvatarValidate = new FormValidator(enableValidation, popupEditAvatar);
+editAvatarValidate.enableValidation();
+
+const popupAvatar = new PopupWithForm('#popup-edit-avatar', (formData) => {
+    popupAvatar.renderLoading(true);
+    api
+        .setUserAvatar(formData)
+        .then((data) => {
+            userInfo.setUserInfo(data);
+        })
+        .catch((err) => console.log(err))
+        .finally(() => popupAvatar.renderLoading(false));
+});
+popupAvatar.setEventListeners();
+
+popupEditAvatar.addEventListener('click', function () {
+    popupAvatar.open();
+    editAvatarValidate.disableSubmitButton();
+});
+
+// const popupFormDelete = new PopupLoading('#popup-confirmation', ()  =>{
+//     popupFormDelete.renderLoading(true);
+//     api.deleteCard(id)
+//         .then(() => {
+//             card.deleteCard();
+//             popupFormDelete.close();
+//         })
+//         .catch((err) => alert(err))
+//         .finally(() => {
+//             popupFormDelete.renderLoading(false);
+//         })
+// })
+//
+// popupFormDelete.setEventListeners();
+//
+// popupDeleteCard.addEventListener('click', function () {
+//     popupFormDelete.open();
+// });
 
 
-renderInitialCard.renderItems(initialCards);
+
+
 
 // const PopupLoading = new PopupLoading('#popup-confirmation');
 // PopupLoading.setEventListeners();

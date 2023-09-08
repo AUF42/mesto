@@ -6,7 +6,7 @@ class PopupLoading extends Popup {
         this._confirmButton = this._popupSelector.querySelector('.popup__save-button');
     }
 
-    renderDeleting(isLoading) {
+    renderLoading(isLoading) {
         if(isLoading) {
             this._confirmButton.textContent = 'Удаление...';
         } else {

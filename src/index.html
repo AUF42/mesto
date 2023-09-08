@@ -38,13 +38,14 @@
 
 <div class="popup" id="popup-edit-avatar">
     <div class="popup__container">
-        <button type="button" class="popup__close-button"></button>
-        <form class="popup__form" action="#" method="post" novalidate>
-            <p class="popup__title">Обновить аватар</p>
+        <button type="button" class="popup__close-button" aria-label="Закрыть форму редактирования аватара"></button>
+        <h2 class="popup__header">Обновить аватар</h2>
+        <form class="popup__form" novalidate>
             <label for="avatar" class="popup__label">
-                <input type="url" name="avatar" id="avatar" class="popup__input" placeholder="Ссылка на картинку" required>
+                <input class="popup__input" id="avatar" type="url" placeholder="Ссылка на картинку" name="link" required>
+                <p class="popup__input-error">Вы пропустили это поле.</p>
             </label>
-            <button type="submit" class="popup__save-button">Сохранить</button>
+            <button type="submit" class="popup__save-button popup__save-button_disabled" disabled aria-label="Сохранить форму редактирования аватара">Сохранить</button>
         </form>
     </div>
 </div>
@@ -88,10 +89,10 @@
 <div class="popup" id="popup-confirmation">
     <div class="popup__container">
         <button type="button" class="popup__close-button"></button>
-        <div class="popup__form">
-            <p class="popup__title">Вы уверены?</p>
-            <button type="button" class="popup__save-button">Да</button>
-        </div>
+        <form class="popup__form" novalidate>
+        <h2 class="popup__header">Вы уверены?</h2>
+            <button type="submit" class="popup__save-button popup__save-button_disabled" disabled>Да</button>
+        </form>
     </div>
 </div>
 
@@ -111,7 +112,7 @@
         <div class="element__info">
             <h2 class="element__intro"></h2>
             <button type="button" class="element__like" aria-label="Лайк"></button>
-            <span class="element__span"></span>
+            <span class="element__like-counter">0</span>
         </div>
     </div>
 </template>

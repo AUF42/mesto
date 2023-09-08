@@ -56,7 +56,7 @@ class Api {
                 avatar: avatar,
             }),
         })
-            .then(this._checkResponse);
+            .then(res => this._checkResponse(res));
     }
 
     deleteCard(cardId) {

@@ -32,6 +32,11 @@ const popupEditingForm = document.querySelector('#popup__profile-edit');
 const popupAddCardOpenBtn = document.querySelector('.profile__add-button');
 const popupCreatingCards = document.querySelector('#popup__add-card');
 
+const popupEditAvatar = document.querySelector('.profile__avatar');
+
+const popupDeleteCard = document.querySelector('#popup-confirmation');
+
+
 const cardsContainer = '.elements';
 
 const enableValidation = {
@@ -58,5 +63,7 @@ export {
     popupCreatingCards,
     cardsContainer,
     enableValidation,
-    apiConfig
+    apiConfig,
+    popupEditAvatar,
+    popupDeleteCard
 }

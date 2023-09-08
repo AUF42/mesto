@@ -18,9 +18,9 @@ class Card {
         return this._elementCard.remove();
     }
 
-    // likedCard() {
-    //     return this._dataLikes.some(like => like._id === this._userId)
-    // };
+    likedCard() {
+        return this._dataLikes.some(like => like._id === this._userId)
+    };
 
     _toggleLike = (evt) => {
         evt.target.classList.toggle('element__like_active');
