@@ -3,7 +3,6 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { FormValidator } from '../components/FormValidator.js';
-import { initialCards } from '../utils/initialCards.js';
 import { Card } from '../components/Card.js';
 import './index.css';
 import {
@@ -38,16 +37,6 @@ const userInfo = new UserInfo({
     profileAvatarSelector: '.profile__avatar'
 });
 
-Promise.all([api.getUserInfoApi(), api.getInitialCards()])
-    .then(([user, cards]) => {
-        userId = user._id;
-        userInfo.setUserInfo(user);
-        renderInitialCard.renderItems(cards);
-    })
-    .catch((err) => alert(err))
-    .finally(() => {})
-let userId;
-
 const createCard = (cardElement) => {
     const card = new Card(cardElement, '#element-template', userId, { cardId: cardElement._id, ownerId: cardElement.owner._id },
         {
@@ -79,6 +68,23 @@ const createCard = (cardElement) => {
     return card.createCard();
 }
 
+// Создание секции и отображение карточек
+const renderInitialCard = new Section({
+    renderer: (cardElement) => {
+        renderInitialCard.addItem(createCard(cardElement));
+    },
+}, cardsContainer);
+
+Promise.all([api.getUserInfoApi(), api.getInitialCards()])
+    .then(([user, cardElement]) => {
+        userId = user._id;
+        userInfo.setUserInfo(user);
+        renderInitialCard.renderItems(cardElement.reverse());
+    })
+    .catch((err) => alert(err))
+    .finally(() => {})
+let userId;
+
 // Создание новой карточки
 const popupCreateNewCard = new PopupWithForm('#popup__add-card', (item) => {
         popupCreateNewCard.renderLoading(true);
@@ -97,14 +103,6 @@ popupAddCardOpenBtn.addEventListener('click', function () {
     addCardValidate.disableSubmitButton();
 });
 
-// Создание секции и отображение карточек
-const renderInitialCard = new Section({
-    renderer: (cardInfo) => {
-        renderInitialCard.addItem(createCard(cardInfo));
-    },
-}, cardsContainer);
-
-renderInitialCard.renderItems(initialCards);
 
 //Редактирование профиля
 const popupProfileEdit = new PopupWithForm('#popup__profile-edit', ({ name, profession }) => {

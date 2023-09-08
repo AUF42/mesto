@@ -66,7 +66,7 @@ class Card {
     _addEventHandler = () => {
         this._likeIcon.addEventListener('click', event => this._toggleLike());
         this._elementImages.addEventListener('click', () => this._cardZoom(this._name, this._image));
-        if (this._userId === this._dataId) {
+        if (this._userId === this._ownerId) {
             this._deleteIcon.addEventListener('click', () =>  this._cardDelete(this, this._cardId));
         } else {
             this._deleteIcon.remove();
