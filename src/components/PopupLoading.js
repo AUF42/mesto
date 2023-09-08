@@ -14,7 +14,7 @@ class PopupLoading extends Popup {
     }
 
     setEventListeners() {
-        this._submitElement.addEventListener('submit', (evt) => {
+        this._submitButton.addEventListener('submit', (evt) => {
             evt.preventDefault();
             this._callbackNotice(this._cardElement, this._cardId) })
         super.setEventListeners();
