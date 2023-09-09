@@ -123,7 +123,8 @@ const popupProfileEdit = new PopupWithForm('#popup__profile-edit', ({ name, prof
     api
         .setUserInfoApi({ name, profession })
         .then((data) => {
-            userInfo.setUserInfo(data)
+            userInfo.setUserInfo(data);
+            popupProfileEdit.close();
         })
         .catch((err) => console.log(err))
         .finally(() =>  popupProfileEdit.renderLoading(false));
@@ -142,6 +143,7 @@ const popupAvatar = new PopupWithForm('#popup-edit-avatar', ( { avatar } )  => {
         .setUserAvatar( {avatar} )
         .then((data) => {
             userInfo.setUserInfo(data);
+            popupAvatar.close();
         })
         .catch((err) => console.log(err))
         .finally(() => popupAvatar.renderLoading(false));
