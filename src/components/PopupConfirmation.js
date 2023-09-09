@@ -1,9 +1,9 @@
 import { Popup } from './Popup';
 
-class PopupLoading extends Popup {
+class PopupConfirmation extends Popup {
     constructor(selector, { callbackNotice }) {
         super(selector);
-        this._submitButton = this._popupName.querySelector('.popup__save-button');
+        this._submitButton = this._popupName.querySelector('.popup__form');
         this._callbackNotice = callbackNotice;
     }
 
@@ -21,4 +21,4 @@ class PopupLoading extends Popup {
     }
 }
 
-export { PopupLoading }
+export { PopupConfirmation }

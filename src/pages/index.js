@@ -16,7 +16,7 @@ import {
     popupEditingFormAvatar
 } from '../utils/constants';
 import { Api } from '../components/Api';
-import {PopupLoading} from "../components/PopupLoading";
+import {PopupConfirmation} from "../components/PopupConfirmation";
 
 const api = new Api(apiConfig);
 const addCardValidate = new FormValidator(enableValidation, popupCreatingCards);
@@ -85,7 +85,7 @@ const renderInitialCard = new Section({
 }, cardsContainer);
 
 
-const popupFormDelete = new PopupLoading('#popup-confirmation', {
+const popupFormDelete = new PopupConfirmation('#popup-confirmation', {
     callbackNotice: (cardElement, cardId) => { api.deleteCard(cardId)
         .then(() => {
             cardElement.deleteCard();
